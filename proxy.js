@@ -2,8 +2,12 @@ import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
 
 export async function proxy(request) {
-  const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImR1bW15QGdtYWlsLmNvbSIsImV4cCI6MTc3MzQxMTgwOX0.0y-oo6i4DnZKmZRYyX0IROc-KfZmxarMs9CX4zMquNU";
+  // Item read APIs are public.
+  if (request.method === "GET" && request.nextUrl.pathname.startsWith("/api/items")) {
+    return NextResponse.next();
+  }
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.split(" ")[1];
 
   if (!token) {
     return NextResponse.json({
@@ -23,8 +27,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: [
-    "/api/items",
-    "/api/items/:path*",
-  ],
+  matcher: ["/api/items/:path*"],
 };
