@@ -31,6 +31,7 @@ export async function POST(request) {
 
         return NextResponse.json({
           message: "ユーザーログイン成功",
+          token: token,
         });
       } else {
         return NextResponse.json({
