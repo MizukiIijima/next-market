@@ -11,6 +11,7 @@ const UpdateItem = (context) => {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const loginUserEmail = useAuth();
@@ -28,6 +29,7 @@ const UpdateItem = (context) => {
       setImage(jsonData.singleItem.image);
       setDescription(jsonData.singleItem.description);
       setEmail(jsonData.singleItem.email);
+      setLoading(true);
     };
     getSingleItem();
   }, [context]);
@@ -63,8 +65,14 @@ const UpdateItem = (context) => {
     }
   };
 
-  if (!loginUserEmail) {
-    return <div>権限がありません。</div>;
+  if (loading) {
+    if (email === loginUserEmail) {
+      return <div>...</div>;
+    } else {
+      return <div>権限がありません。</div>;
+    }
+  } else {
+    return <div>Loading...</div>;
   }
 
   return (
