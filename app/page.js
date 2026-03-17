@@ -13,6 +13,7 @@ const getAllItems = async () => {
 
 const ReadAllItems = async () => {
   const allItems = await getAllItems();
+  console.log(allItems);
 
   return (
     <div className="grid-container-in">
@@ -28,8 +29,8 @@ const ReadAllItems = async () => {
             alt="item image"
             priority
           />
-          <p>ID: {item.id}</p>
-          <p>Name: {item.name}</p>
+          <p>{item.title}</p>
+          <p>￥{item.price}</p>
           <p>Description: {item.description.substring(0, 80)}...</p>
         </Link>
       ))}
